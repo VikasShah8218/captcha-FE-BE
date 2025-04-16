@@ -1,0 +1,81 @@
+.navigation-bar{
+display: flex;
+font-family: Arial, Helvetica, sans-serif;
+font-weight: lighter;
+margin-left: 10px;
+}
+
+.navigation-bar .nag-button{
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 100;
+    font-size: 15px;
+    margin: 5px 5px 0px 5px;
+    padding: 2px 8px 2px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #3a88c3;
+    color: rgb(239, 239, 239);
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.navigation-bar .nag-button:hover{
+ background-color: #3379ad;
+ transform: scale(1.05);   
+}
+
+
+nav{
+    display: flex;
+    padding: 10px 20px 10px 20px;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1b68a3;
+    color: white;
+}
+
+nav div:first-child{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+nav div:first-child img{
+    height: 50px;
+    border-radius: 100%;
+    background-color: white;
+    margin-right: 20px;
+}
+
+nav .headli{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+nav .hed1{
+    font-size: 17px;
+    margin-bottom: 5px;
+}
+nav .hed2{
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+nav .hed3{
+    font-size: 15px;
+}
+
+nav button{
+    padding: 10px 20px 10px 20px;
+    border-radius: 50px;
+    border: 1px solid red;
+    background-color: red;
+    color: wheat;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s ease-in ;
+}
+nav button:hover{
+    transform: scale(1.05);
+}

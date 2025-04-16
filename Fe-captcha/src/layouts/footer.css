@@ -1,0 +1,30 @@
+.footer{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+.essi-footer {
+    max-height: 11vh;
+    background-color: #0d5892;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+}
+.essi-footer .essi-logo {
+    height: 30px;
+    flex: 1;
+}
+.essi-footer .essi-logo img{
+    height: 100%;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.foooter-text{
+    flex: 4;
+    height: 0vh;
+    color: rgb(235, 235, 235);
+    text-align: start;
+    margin-top: -10px;
+  font-size: 15px;
+}
