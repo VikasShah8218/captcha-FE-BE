@@ -1,49 +1,38 @@
 import { useState, useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 type Message = {
   id: number;
   text: string;
   sender: 'server' | 'user';
   timestamp: Date;
-  // captcha: string, 
-  // captcha_id: number, 
-  // tab_id: number, 
-  // status: string,
+  selected?: boolean;
+  captcha: string;
+  captcha_id: string;
+  tab_id: string;
 };
 
 export default function Home() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const wsConnection = useSelector((state: any) => state.auth.wsConnection);
   const wsMessage    = useSelector((state: any) => state.auth.wsMessage);
   const [wsMessages, setWsMessages] = useState<any>([])
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: 1,
-      text: 'Welcome! Please select any of my messages to reply.',
-      sender: 'server',
-      timestamp: new Date(),
-    },
-    // {captcha: "Request Image", captcha_id: 3, tab_id: 2, status: "pending"},
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  useEffect(()=>{console.log("======> ",wsMessage); setWsMessages(prev => [...prev, {...wsMessage,sender:"server"}]);}, [wsMessage])
+  useEffect(()=>{console.log("======> ",wsMessage); 
+    if (wsMessage){
+      setWsMessages(prev => [...prev, {...wsMessage,sender:"server"}]);
+    }
+    }, [wsMessage])
 
   // Auto-scroll to bottom when messages change
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  useEffect(() => {messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });}, [messages]);
 
   const handleSelectMessage = (message: Message) => {
-    if (message.sender === 'server') {
-      setSelectedMessage(message);
-      // setMessages(prev => prev.map(msg => 
-      //   msg.id === message.id ? {...msg, selected: true} : {...msg, selected: false}
-      // ));
-    }
+    if (message.sender === 'server') {setSelectedMessage(message);}
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -58,6 +47,7 @@ export default function Home() {
         captcha_id: selectedMessage?.captcha_id,
         tab_id: selectedMessage?.tab_id,
         captcha_text: inputValue.trim(),
+        timestamp: formatTime(new Date()),
       }
     ]);
     
@@ -72,8 +62,12 @@ export default function Home() {
     console.log(">>>>>> ",selectedMessage,inputValue);
   };
 
-  const formatTime = (date: Date) => {
-    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const formatTime = (date:any) => {
+    return date.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+    });
   };
 
   return (
@@ -92,7 +86,7 @@ export default function Home() {
         {/* Messages container */}
         <div className="flex-1 p-4 overflow-y-auto">
           <div className="space-y-3">
-            {wsMessages.map((message) => (
+            {wsMessages.map((message:any) => (
               <div key={message.captcha_id} onClick={() => handleSelectMessage(message)} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
                 <div 
                   className={`max-w-xs p-3 rounded-lg cursor-pointer transition-all ${message.sender === 'user' 
@@ -101,9 +95,9 @@ export default function Home() {
                       ? 'bg-gray-500 text-white rounded-bl-none border-2 border-blue-400'
                       : 'bg-gray-600 text-gray-100 rounded-bl-none hover:bg-gray-550'}`}
                 >
-                  <div className="text-sm">{message.sender=== "user"? message.captcha_text : <img className='h-5' src={message.captcha} alt="" /> }</div>
+                  <div className="text-sm">{message.sender=== "user"? message.captcha_text : <img className='h-5 bg-white' src={message.captcha} alt="" /> }</div>
                   <div className={`text-xs mt-1 ${message.sender === 'user' ? 'text-blue-200' : 'text-gray-400'}`}>
-                    12:00 AM
+                    {message?.timestamp}
                   </div>
                 </div>
               </div>
@@ -116,7 +110,7 @@ export default function Home() {
         <form onSubmit={handleSubmit} className="p-4 border-t border-gray-700">
           {selectedMessage && (
             <div className="bg-gray-700 text-gray-300 text-sm p-2 mb-2 rounded-md flex justify-between">
-              <p className='flex'>Replying to: <img className='h-5 ml-3' src={selectedMessage.captcha} alt="" /></p>
+              <p className='flex'>Replying to: <img className='h-5 ml-3 bg-white' src={selectedMessage.captcha} alt="" /></p>
               <button type="button" onClick={() => {setSelectedMessage(null); setMessages(prev => prev.map(msg => ({...msg, selected: false})));}} className="text-gray-400 hover:text-white">
                 ✕
               </button>
