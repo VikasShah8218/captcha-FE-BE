@@ -7,6 +7,7 @@ from .forms import *
 import asyncio
 import redis
 import json
+from datetime import datetime
 from app.websocket.routes import broadcast_ws_message
 
 router = APIRouter()
@@ -30,7 +31,8 @@ async def captcha(data: Optional[CaptchaForm] = None):
         'captcha': data.captcha,
         'captcha_id': data.captcha_id,
         'tab_id': data.tab_id,
-        'status': 'pending'
+        'status': 'pending',
+        'timestamp': datetime.now().strftime("%I:%M %p"),
     }
     redis_client.setex(redis_key, timeout, json.dumps(redis_data))
     await broadcast_ws_message(redis_data)
