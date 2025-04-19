@@ -5,8 +5,9 @@ import { logout } from "../app/slices/authSlice";
 
 // const BASE_URL = "http://localhost:8000";
 // const WS_URL   = "ws://localhost:8000/ws?token=";
-const WS_URL   = "ws://13.49.145.155:8000/ws?token=";
-const BASE_URL = "http://13.49.145.155:8000";
+// const WS_URL   = "ws://13.49.145.155:8000/ws?token=";
+const WS_URL   = "ws://solve-be.techkingdom.in/ws?token=";
+const BASE_URL = "http://solve-be.techkingdom.in";
 
 const ERROR_MSG = { type: "error", text: "Something went wrong." };
 
